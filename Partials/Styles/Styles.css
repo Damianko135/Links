@@ -1,0 +1,148 @@
+@media screen and (min-width: 1000px) {
+/* Dark Theme Styles */
+[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-fg: #ffffff;
+}
+
+/* Light Theme Styles */
+[data-theme="light"] {
+  filter: invert(100%); 
+}
+
+[data-theme="light"] .Agreed{
+  filter: invert(100%); 
+}
+
+[data-theme="light"] :not(img, input, footer) {
+  filter: invert(100%);
+}
+
+[data-theme="light"] .img {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+  display: block;
+  left: -3px;
+  position: absolute;
+  top: -3px;
+  height: 35px;
+  width: 35px;
+  background: inherit;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: invert(1) grayscale(1);
+  -webkit-filter: invert(1) grayscale(1);
+}
+
+
+
+/* Body Styles */
+body {
+  background-color: #000000;
+  color: #ffffff;
+  display: inline-block;
+  min-height: 10px;
+  place-items: left;
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Button Styles */
+button {
+  color: transparent;
+  background-color: transparent;
+  width: 35px;
+  height: 35px;
+}
+
+/* Image Styles */
+.img {
+  display: block;
+  left: 28px;
+  position: absolute;
+  top: 28px;
+  height: 35px;
+  width: 35px;
+  background: inherit;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: invert(1) grayscale(1);
+  -webkit-filter: invert(1) grayscale(1);
+}
+
+/* Header Styles */
+.header {
+  
+  text-align: left;
+}
+
+.header h1 {
+  font-size: 25px;
+}
+
+/* Intro Styles */
+.intro {
+  padding-left: 20px;
+  text-align: left;
+  font-size: 20px;
+}
+
+/* Main Container Styles */
+.main-void-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* Main Section Styles */
+.main {
+  text-align: left;
+  max-width: 50%;
+}
+
+/* Void Section Styles */
+.void {
+  padding-left: 20px;
+  padding-right: 10%;
+  max-width: 50%;
+}
+
+/* Paragraph Link Styles */
+p a {
+  text-decoration: none;
+  color: blue;
+}
+
+p a:hover {
+  color: red;
+}
+
+/* GIF Styles */
+.gif {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Redirect Styles */
+.Redirect {
+  position: absolute;
+  text-align: center;
+  text-decoration: dashed;
+  margin: auto;
+  
+
+}
+
+footer {
+  text-align: center;
+  color: gray;
+  background-color: transparent;
+
+}
+}
