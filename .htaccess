@@ -1,0 +1,83 @@
+# Actually allows someone to pull this and run it
+Options +FollowSymLinks
+## Flag for GoDaddy
+# Options +MultiViews
+
+## Turn on the rewrite engine
+RewriteEngine on
+
+# RewriteBase /
+
+## Let the other htaccess do its thing
+
+## If the requested URL without the .php extension exists as a file, internally rewrite the URL to append the .php extension
+# Redirect to ./Home and have it load ./Home.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [NC,L,QSA]
+
+## If requested URL has the .html extension, remove it from the URL while still loading the content
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L,QSA]
+
+## Remove File extension after entering it yourself
+# So redirect to ./home after putting in ./home.php
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.php[\s?] [NC]
+RewriteRule ^ /%1 [R=301,NE,L]
+
+## Set the default directory index page order
+DirectoryIndex index.php index.html Projects.php Choice.php Config.php 500.php
+
+## Forbid access to .htaccess and Connection.php files
+<FilesMatch "(\.htaccess|Connection\.php|Send_Email\.php)">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+## Error Pages
+# ErrorDocument 401 /401.php
+# ErrorDocument 403 /403.php
+# ErrorDocument 404 /404.php
+# ErrorDocument 500 /500.php
+
+## Redirect non-existing pages to index page
+# Best use for single page applications
+
+# <IfModule mod_rewrite.c>
+#     Options +SymLinksIfOwnerMatch
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteRule . /index.php [L]
+# </IfModule>
+
+## Server only
+# Is already being done by Domain and SSL providers
+
+# Redirect WWW -> non-WWW
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Redirect non-WWW -> WWW
+# RewriteCond %{HTTP_HOST} ^"DomainName"\.(.+)$ [NC]
+# RewriteRule ^(.*)$ http://www."DomainName"/$1 [L,R=301]
+
+## SSL Redirect
+# RewriteEngine on
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+## Redirect from IP to Domain
+RewriteCond %{HTTP_HOST} ^145\.89\.192\.242$ [NC]
+# Try our IP, get rick rolled Biatch
+RewriteRule ^(.*)$ https://youtu.be/xvFZjo5PgG0?si=mWhC94yeSyCt2Nst [L,R=301]
+
+## Forbid access to Directory/Directories:
+# Return 404 not 403/401 So it gives away less info if the directory even exists
+# Also try to do this last
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ - [R=404,L]
+
+# Options -Indexes
