@@ -1,10 +1,10 @@
 <?php
-
-define('DB_HOST', 'localhost');
+// Sets variables for database connection, i use "Database" since im runnning it in a docker container, named database
+define('DB_HOST', 'Database');
 define('DB_PORT', 3306);
 define('DB_NAME', 'Links');
 define('DB_USER', 'root');
-// Set password:
+// Set password, not setting one, since github public, but ensure to set one after
 define('DB_PASS', '');
 
 global $PDO;
