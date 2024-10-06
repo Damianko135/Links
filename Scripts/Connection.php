@@ -2,8 +2,8 @@
 // Use getenv() to retrieve environment variables
 define('DB_HOST', getenv('DB_HOST'));
 define('DB_PORT', 3306);
-define('DB_NAME', 'Links');
-define('DB_USER', 'root');
+define('DB_NAME', getenv(DB_NAME));
+define('DB_USER', getenv('DB_USER'));
 // Set password using environment variable
 define('DB_PASS', getenv('DB_PASS'));
 
