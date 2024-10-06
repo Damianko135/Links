@@ -2,7 +2,7 @@
 FROM php:8.3.0-apache
 
 # Install necessary packages for PHP extensions and enable Apache modules
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
         libpq-dev \
     && docker-php-ext-install pdo_mysql \
     && a2enmod rewrite \
@@ -13,7 +13,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /var/www/html
 
 # Copy only the necessary files (excluding unnecessary ones)
-COPY . . 
+COPY . .
+
+# Copy all .sql files to /var/www/sql. Adjusted to avoid potential issues with glob patterns.
+COPY **/*.sql /var/www/sql/
 
 # Set proper permissions for Apache to access the files
 RUN chown -R www-data:www-data /var/www/html
