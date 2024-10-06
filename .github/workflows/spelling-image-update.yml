@@ -1,10 +1,9 @@
-name: Build and Push Docker Image on Add/Remove
+name: Build and Push Docker Image on Any Change
 
 on:
   push:
-    # triggers only when a file has been changed, not the contents
-    paths:
-      - '**' 
+    branches:
+      - main  # Adjust to your main branch
 
 jobs:
   docker:
@@ -23,7 +22,6 @@ jobs:
       - name: Generate semantic version
         id: semver
         run: |
-          sleep 10
           RUN_NUMBER=${GITHUB_RUN_NUMBER}
           MAJOR=$((RUN_NUMBER / 100))
           MINOR=$(((RUN_NUMBER % 100) / 10))
@@ -39,6 +37,4 @@ jobs:
           push: true
           tags: |
             ${{ env.REPO_LC }}:latest
-            # Doesnt need a whole new version with a spelling update or something of the sorts
-            ${{ env.REPO_LC }}:${{ env.VERSION }}
-            ${{ env.REPO_LC }}:${{ env.VERSION }}-${{ github.sha }}
+
