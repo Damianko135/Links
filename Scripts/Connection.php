@@ -1,11 +1,11 @@
 <?php
-// Sets variables for database connection, i use "Database" since im runnning it in a docker container, named database
-define('DB_HOST', 'Database');
+// Use getenv() to retrieve environment variables
+define('DB_HOST', getenv('DB_HOST'));
 define('DB_PORT', 3306);
 define('DB_NAME', 'Links');
 define('DB_USER', 'root');
-// Set password, not setting one, since github public, but ensure to set one after
-define('DB_PASS', '');
+// Set password using environment variable
+define('DB_PASS', getenv('DB_PASS'));
 
 global $PDO;
 
@@ -30,3 +30,4 @@ function executeQuery($sql) {
         echo "Houston, we've got a problem: " . "<br>" . $e->getMessage();
     }
 }
+?>

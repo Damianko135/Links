@@ -1,5 +1,8 @@
 // Calculate the current theme setting based on localStorage and system settings
-function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark }) {
+function calculateSettingAsThemeString({
+  localStorageTheme,
+  systemSettingDark,
+}) {
   return localStorageTheme || (systemSettingDark.matches ? "dark" : "light");
 }
 
@@ -7,7 +10,10 @@ function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark })
 function updateButton({ buttonEl, isDark }) {
   const newCta = `url("Partials/Favicon/Light-Dark-Change.png")`;
   buttonEl.style.backgroundImage = newCta;
-  buttonEl.setAttribute("aria-label", `Switch to ${isDark ? "Light" : "Dark"} Mode`);
+  buttonEl.setAttribute(
+    "aria-label",
+    `Switch to ${isDark ? "Light" : "Dark"} Mode`,
+  );
 }
 
 // Update the theme setting on the HTML tag
