@@ -20,77 +20,150 @@ $randomNumber = rand(0, count($linksData) - 1);
 // Get a link from the array
 $link = $linksData[$randomNumber]["Link"];
 ?>
-<head>
-  <link rel="shortcut icon" href="Partials/Favicon/pixil-art-hand.png" type="image/x-icon">
-</head>
 
 <body>
-  <div class="main-void-container" id="BODY" style="display: all;">
+  <div class="main-void-container" id="BODY">
     <main class="main">
-      <Title>BOYZZZZ</Title>
-      <button type="button" data-theme-toggle>
-        <img src="Partials/Favicon/Light-Dark-Change.png" alt="Changer" class="img">
-      </button>
+      <div class="header">
+        <h1>My Guys, why?</h1>
+        <button type="button" data-theme-toggle aria-label="Toggle theme">
+          <img src="Partials/Favicon/Light-Dark-Change.png" alt="Theme Toggle" class="img">
+        </button>
+      </div>
 
-      <h1 class="header">My Guys, why?</h1>
+      <div class="content-section">
+        <h2>The Big Question</h2>
+        <p>Why are we dying earlier than women?</p>
+        <p>It doesn't make any sense... 🤔</p>
+        <p>Anyway, wanna see something funny? Check
+          <a id="linkToPage" onclick="delayRedirect()" data-link="<?php echo htmlspecialchars($link); ?>">This</a> out!
+        </p>
+      </div>
 
-      <p>Why are we dying earlier than women?</p>
-      <p>It doesn't make any sense</p>
-      <p>Anyway, wanna see something funny? Check
-        <a id="linkToPage" onclick="delayRedirect()" data-link="<?php echo $link ?>"> This</a> out
-      </p>
+      <div class="form-section">
+        <h3>Got Funny Things to Add Yourself?</h3>
+        <form action="Scripts/Input.php" method="post" id="myForm">
+          <div class="form-group">
+            <label for="username">Your Name:</label>
+            <input 
+              placeholder="Enter your name" 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-input"
+              value="<?php echo isset($_COOKIE['User']) ? htmlspecialchars($_COOKIE['User']) : 'Damian'; ?>"
+              required
+            >
+          </div>
 
-      <form action="Scripts/Input.php" method="post" id="myForm">
-    <input placeholder="Your Name" type="text" id="username" name="username" value="Damian">
-    <input placeholder="Your Name" type="text" id="username" name="username" default="Damian">
-  </h4>
-  <h4><label>Got Funny Things to add yourself??</label>
-    <input placeholder="Memes" type="url" id="data" name="data" required>
-  </h4>
+          <div class="form-group">
+            <label for="data">Share Your Memes:</label>
+            <input 
+              placeholder="Paste your funny link here" 
+              type="url" 
+              id="data" 
+              name="data" 
+              class="form-input"
+              required
+            >
+          </div>
 
-  <div id="agreementBlock" style="display: none;">
-  <label for="agree_terms">
-    <input type="checkbox" id="agree_terms" name="agree_terms" value="1" class="Agreed">
-    I agree to the following terms:
-    <ul>
-      <li>I acknowledge that my IP address will be stored in the database alongside my link.</li>
-      <li>I acknowledge that the name I am providing will also be stored.</li>
-      <li>If the link I provided proves to be of a spicy website, I may be banned from using this site ever again.</li>
-    </ul>
-  </label>
+          <div id="agreementBlock" style="display: none;">
+            <label for="agree_terms">
+              <input type="checkbox" id="agree_terms" name="agree_terms" value="1" class="Agreed">
+              <strong>I agree to the following terms:</strong>
+              <ul>
+                <li>I acknowledge that my IP address will be stored in the database alongside my link.</li>
+                <li>I acknowledge that the name I am providing will also be stored.</li>
+                <li>If the link I provided proves to be inappropriate, I may be banned from using this site.</li>
+                <li>I understand this is a fun, family-friendly platform. 🎉</li>
+              </ul>
+            </label>
+          </div>
 
+          <input type="submit" value="Submit Your Funny Link" class="submit-btn">
+        </form>
 
-  </div>
-
-  <input type="Submit" value="Submit">
-
-        </h4>
-      </form>
-      if (!empty($_SESSION["Username"]) && isset($_SESSION["Username"])) {
-        if (isset($_COOKIE["User"])) {
-          echo "<p style='color: yellow;'>Welcome back, " . htmlspecialchars($_COOKIE["User"]) . "</p>";
+        <?php
+        // Display welcome message for returning users
+        if (!empty($_SESSION["Username"]) && isset($_SESSION["Username"])) {
+          if (isset($_COOKIE["User"])) {
+            echo "<p style='color: yellow;'>Welcome back, " . htmlspecialchars($_COOKIE["User"]) . "! 🎉</p>";
+          }
         }
-      }
-      }
-      if (isset($_SESSION["Usermessage"])) {
-        echo "<span style='color: aqua;'>" . $_SESSION["Usermessage"] . "</span>";
-      }
-      ?>
+        
+        // Display session messages
+        if (isset($_SESSION["Usermessage"])) {
+          echo "<span style='color: aqua;'>" . htmlspecialchars($_SESSION["Usermessage"]) . "</span>";
+        }
+        ?>
+      </div>
     </main>
 
     <div class="void">
-      <img class="gif" src="Partials/Favicon/HowYouDoing.gif" alt="Joey">
+      <div class="gif-container">
+        <img class="gif" src="Partials/Favicon/HowYouDoing.gif" alt="Joey from Friends asking 'How you doin?'">
+        <p style="text-align: center; margin-top: 1rem; color: var(--secondary-text); font-style: italic;">
+          "How you doin'?" - Joey 😎
+        </p>
+      </div>
     </div>
   </div>
+
+  <!-- Scripts -->
   <script src="Scripts/Light-Dark.js"></script>
-  <div class="Redirect" id="textField" style="display: none;">
-    <h1>Thank you for choosing .. Airlines. See you next time!!</h1>
-  </div>
   <script src="Scripts/LinkUpdate.js"></script>
+  
+  <!-- Improved form interaction script -->
+  <script>
+    // Show agreement block when user starts typing in the URL field
+    document.getElementById('data').addEventListener('input', function() {
+      const agreementBlock = document.getElementById('agreementBlock');
+      if (this.value.length > 0) {
+        agreementBlock.style.display = 'block';
+        agreementBlock.style.animation = 'fadeIn 0.3s ease-in';
+      } else {
+        agreementBlock.style.display = 'none';
+      }
+    });
+
+    // Form validation
+    document.getElementById('myForm').addEventListener('submit', function(e) {
+      const urlInput = document.getElementById('data');
+      const agreeCheckbox = document.getElementById('agree_terms');
+      
+      if (urlInput.value.length > 0 && !agreeCheckbox.checked) {
+        e.preventDefault();
+        alert('Please agree to the terms before submitting your link! 😊');
+        return false;
+      }
+    });
+
+    // Add fade-in animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+  <div class="Redirect" id="textField" style="display: none;">
+    <h1>Thank you for choosing BOYZZZZ Airlines! ✈️<br>See you next time!! 🎉</h1>
+  </div>
+
   <?php
+  // Clean up session messages
   if (isset($_SESSION["Usermessage"])) {
     unset($_SESSION["Usermessage"]);
-    unset($cookie_value);
+    if (isset($cookie_value)) {
+      unset($cookie_value);
+    }
   }
+  
   include("Partials/Pre-made/Footer.php");
   ?>
+</body>
+</html>
