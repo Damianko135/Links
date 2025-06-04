@@ -1,60 +1,56 @@
-// Calculate the current theme setting based on localStorage and system settings
-function calculateSettingAsThemeString({
-  localStorageTheme,
-  systemSettingDark,
-}) {
-  return localStorageTheme || (systemSettingDark.matches ? "dark" : "light");
+// Theme Toggle Functionality
+const themeToggle = document.querySelector("[data-theme-toggle]");
+const htmlElement = document.documentElement;
+
+function toggleTheme() {
+  const currentTheme = htmlElement.getAttribute("data-theme");
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+  htmlElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
 }
 
-// Update the button's text and aria-label based on the current theme
-function updateButton({ buttonEl, isDark }) {
-  const newCta = `url("Partials/Favicon/Light-Dark-Change.png")`;
-  buttonEl.style.backgroundImage = newCta;
-  buttonEl.setAttribute(
-    "aria-label",
-    `Switch to ${isDark ? "Light" : "Dark"} Mode`,
-  );
-}
+// Load saved theme
+const savedTheme = localStorage.getItem("theme") || "dark";
+htmlElement.setAttribute("data-theme", savedTheme);
 
-// Update the theme setting on the HTML tag
-function updateThemeOnHtmlEl({ theme }) {
-  document.querySelector("html").setAttribute("data-theme", theme);
-}
+themeToggle.addEventListener("click", toggleTheme);
 
-// On page load:
+// Form interaction
+const dataInput = document.getElementById("data");
+const agreementBlock = document.getElementById("agreementBlock");
 
-// Find the theme toggle button and get theme settings from localStorage and system
-const button = document.querySelector("[data-theme-toggle]");
-const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-// Determine the current theme setting
-let currentThemeSetting = calculateSettingAsThemeString({
-  localStorageTheme: localStorage.getItem("theme"),
-  systemSettingDark,
-});
-
-// Update the button and HTML theme on page load
-updateButton({ buttonEl: button, isDark: currentThemeSetting === "dark" });
-updateThemeOnHtmlEl({ theme: currentThemeSetting });
-
-// Add an event listener to toggle the theme with a 2-second delay
-let canToggleTheme = true;
-button.addEventListener("click", () => {
-  if (!canToggleTheme) {
-    return;
+dataInput.addEventListener("input", function () {
+  if (this.value.trim() !== "") {
+    agreementBlock.style.display = "block";
+  } else {
+    agreementBlock.style.display = "none";
   }
-
-  canToggleTheme = false;
-
-  const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
-
-  // Delay the theme change logic here
-  setTimeout(() => {
-    localStorage.setItem("theme", newTheme);
-    updateButton({ buttonEl: button, isDark: newTheme === "dark" });
-    updateThemeOnHtmlEl({ theme: newTheme });
-
-    currentThemeSetting = newTheme;
-    canToggleTheme = true;
-  }, 500);
 });
+
+// Link redirect functionality (placeholder)
+function delayRedirect() {
+  const overlay = document.getElementById("textField");
+  overlay.style.display = "flex";
+
+  setTimeout(() => {
+    // In the actual implementation, this would redirect to the PHP-generated link
+    const link = document
+      .getElementById("linkToPage")
+      .getAttribute("data-link");
+    // window.location.href = link;
+    overlay.style.display = "none"; // For demo purposes
+  }, 2000);
+}
+document
+  .getElementById("linkToPage")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    delayRedirect();
+  });
+// Initial setup for the agreement block
+if (dataInput.value.trim() !== "") {
+  agreementBlock.style.display = "block";
+} else {
+  agreementBlock.style.display = "none";
+}
+// End of Scripts/Light-Dark.js

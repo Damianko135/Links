@@ -4,7 +4,7 @@ on:
   push:
     # triggers only when a file has been changed, not the contents
     paths:
-      - '**' 
+      - "**"
 
 jobs:
   docker:

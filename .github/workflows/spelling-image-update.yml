@@ -3,7 +3,7 @@ name: Build and Push Docker Image on Any Change
 on:
   push:
     branches:
-      - main  # Adjust to your main branch
+      - main # Adjust to your main branch
 
 jobs:
   docker:
@@ -37,4 +37,3 @@ jobs:
           push: true
           tags: |
             ${{ env.REPO_LC }}:latest
-
