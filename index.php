@@ -20,7 +20,6 @@ $randomNumber = rand(0, count($linksData) - 1);
 // Get a link from the array
 $link = $linksData[$randomNumber]["Link"];
 ?>
-
 <head>
   <link rel="shortcut icon" href="Partials/Favicon/pixil-art-hand.png" type="image/x-icon">
 </head>
@@ -42,7 +41,7 @@ $link = $linksData[$randomNumber]["Link"];
       </p>
 
       <form action="Scripts/Input.php" method="post" id="myForm">
-  <h4><label>You are?</label>
+    <input placeholder="Your Name" type="text" id="username" name="username" value="Damian">
     <input placeholder="Your Name" type="text" id="username" name="username" default="Damian">
   </h4>
   <h4><label>Got Funny Things to add yourself??</label>
@@ -67,9 +66,11 @@ $link = $linksData[$randomNumber]["Link"];
 
         </h4>
       </form>
-      <?php
       if (!empty($_SESSION["Username"]) && isset($_SESSION["Username"])) {
-        echo "<p style='color: yellow;'>Welcome back, " . $_COOKIE["User"] . "</p>";
+        if (isset($_COOKIE["User"])) {
+          echo "<p style='color: yellow;'>Welcome back, " . htmlspecialchars($_COOKIE["User"]) . "</p>";
+        }
+      }
       }
       if (isset($_SESSION["Usermessage"])) {
         echo "<span style='color: aqua;'>" . $_SESSION["Usermessage"] . "</span>";
@@ -87,11 +88,9 @@ $link = $linksData[$randomNumber]["Link"];
   </div>
   <script src="Scripts/LinkUpdate.js"></script>
   <?php
-  include("Partials/Pre-made/Footer.php");
   if (isset($_SESSION["Usermessage"])) {
     unset($_SESSION["Usermessage"]);
     unset($cookie_value);
   }
+  include("Partials/Pre-made/Footer.php");
   ?>
-</body>
-</html>
